@@ -47,7 +47,7 @@ I then used the output `objpoints` and `imgpoints` to compute the camera calibra
 
 ![alt text][image1]
 
-The code for this step is contained in the first code cell of the IPython notebook: [a relative link](project.ipynb) located in cells 2-6.
+The code for this step is contained in cells 2-6 of the [a IPython notebook](project.ipynb)
 
 ### Pipeline (single images)
 
