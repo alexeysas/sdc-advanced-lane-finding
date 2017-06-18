@@ -97,7 +97,7 @@ As a result I've come up with following pre-processing pipeline:
 * Combine SobelX for RGB and SobelX for S Channel image.
 ![alt text][image9]
 
-The code for the pipeline can be found in the cell 65 of the [a IPython notebook](project.ipynb)
+The code for the pipeline can be found in the cell 13 of the [a IPython notebook](project.ipynb)
 
 #### 3. Perspective transform
 
@@ -189,7 +189,15 @@ Drawing code can be found in the cell 14 of the [a IPython notebook](project.ipy
 
 ### Pipeline (video)
 
-#### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
+#### 1. Run pipline for the video
+
+Before running lane detection pipeline for the video we can improve algorithms according to the fact that sequential video frames are similar and we can use previous information to help detect lines on the current frame. Two techniques were used:
+
+* Instead of sliding window use previous lines and areas around them to detect new lines
+  Code can be found in the cell 11 of the [a IPython notebook](project.ipynb) find_lines_in_regions function.
+  
+* Use moving average for the detected lines to smooth "bad frames"
+  Code can be found in the cell 19 and 12 of the [a IPython notebook](project.ipynb) find_lines_in_regions function.
 
 Here's a [link to my video result](./project_video_updated.mp4)
 
@@ -209,6 +217,8 @@ Additionally, algorithm does not work so well when there are complex shadows on 
 Also, algorithm will likely fail then there are "fake" lines on the road and road boarders like the lane lines.  Second video illustrates these issues well.
 
 Also, algorithm is pretty slow. It can not be used for real time processing. So we need to work to improve perfomance by removing non-optimal code or probably consider different image resolution s as well.
+
+Here's a [link to my video result](./challenge_video_updated.mp4) to see some issues with the pipeline.
 
 For the future improvement, we can thing about following ways:
 
