@@ -30,6 +30,8 @@ Following steps were applied:
 
 [image10]: ./images/road_region.png "Region"
 [image11]: ./images/road_perspective.png "Perspective"
+[image11]: ./images/Bird_View_debug.png "Bird view"
+
 
 
 [image6]: ./examples/example_output.jpg "Output"
@@ -125,11 +127,15 @@ I've used open CV getPerspectiveTransform function to calculate transform matrix
 
 This resulted image is following:
 
-![alt text][image10]
+![alt text][image11]
 
 The perspective transform worked as expected as road lines are vertical and parallel.
 
-#### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
+#### 4. Detect line pixels
+
+After the perspective transform is applied to the image from the pipelibe above we are ready to find lines and curvature:
+
+![alt text][image12]
 
 Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda like this:
 
