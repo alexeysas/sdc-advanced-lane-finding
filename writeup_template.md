@@ -33,11 +33,10 @@ Following steps were applied:
 [image12]: ./images/Bird_View_debug.png "Bird view"
 [image13]: ./images/hist.png "Histogram"
 [image14]: ./images/sliding.png "Lines"
+[image15]: ./images/result_sample1.png "Result"
 
-
-
-[image6]: ./examples/example_output.jpg "Output"
-[video1]: ./project_video.mp4 "Video"
+[video1]: ./project_video_updated.mp4 "Video"
+[video2]: ./challenge_video_updated.mp4 "Video"
 
 ### Camera Calibration
 
@@ -153,7 +152,7 @@ Here is sliding window and polynomial fit processing results:
 
 The code to find line based on the bird-eye view image can be found in the cells 50 of the [a IPython notebook](project.ipynb)
 
-#### 5. Find Lines curvature and distance to the car center, 
+#### 5. Find Lines curvature and distance to the car center
 
 To find line curvature we can use formula described  [a there](http://www.intmath.com/applications-differentiation/8-radius-curvature.php) 
 
@@ -161,18 +160,18 @@ As we have second order polynomial curve we need to find derivatives and apply t
 
 Three python functions were created for this and be found in the cell 14 of the [a IPython notebook](project.ipynb)
 
-Using these functions and car position (center borttom of the image) we can find radius of curvature in pixels.  To find realwold radius of curvature I've hardcoded convertions cooficients according to my perspective projection and USA standards for the lane width
+Using these functions and car position (center bottom of the image) we can find radius of curvature in pixels.  To find real-world radius of curvature I've hardcoded conversions coefficients according to my perspective projection and USA standards for the lane width
 
  ym_per_pix = 30.0 / 720 
  xm_per_pix = 3.4 / 700
  
  After that I've calculated real world curvature in meters for both current fit and average fit for the 5 previous frames (for the video only)
  
-To calculate car postion I've used the fact that camera is mounted on the car center. Additionly, we need to find warped car center on the projection image. I've used Open CV perspectiveTransform function for that.
+To calculate car position, I've used the fact that camera is mounted on the car center. Additionally, we need to find warped car center on the projection image. I've used Open CV perspectiveTransform function for that.
  
  Code can be found in the cell 8 of the [a IPython notebook](project.ipynb)
  
-The final step is to measure distance by finding difference car center coordinate and bottom line's pixels, and convert distance to the real world measures using convertions cooficients above.
+The final step is to measure distance by finding difference car center coordinate and bottom line's pixels, and convert distance to the real world measures using conversions coefficients above.
 
 Code for the calculating lines curvature and car distance to the lines can be found in the calculate_lines_parameters function
 in the cell 12 of the [a IPython notebook](project.ipynb)
@@ -180,13 +179,19 @@ in the cell 12 of the [a IPython notebook](project.ipynb)
  
 #### 6. Plot detected lane and car information
 
+The final step is to plot detected lane, curvature radius and car position together with debug information on the image.
+
+Result can be found below:
+
+![alt text][image15]
+
+Drawing code can be found in the cell 14 of the [a IPython notebook](project.ipynb)
 
 ### Pipeline (video)
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
-Here's a [link to my video result](./project_video.mp4)
-
+Here's a [link to my video result](./project_video_updated.mp4)
 
 ### Discussion
 
