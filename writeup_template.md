@@ -30,7 +30,7 @@ Following steps were applied:
 
 [image10]: ./images/road_region.png "Region"
 [image11]: ./images/road_perspective.png "Perspective"
-[image11]: ./images/Bird_View_debug.png "Bird view"
+[image12]: ./images/Bird_View_debug.png "Bird view"
 
 
 
