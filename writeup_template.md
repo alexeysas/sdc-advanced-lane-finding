@@ -20,8 +20,14 @@ Following steps were applied:
 [image1]: ./images/distortion.png "Distortion"
 [image2]: ./images/road_normal.png "Road"
 [image3]: ./images/road_undistorted.png "Road undistorted"
-[image4]: ./examples/warped_straight_lines.jpg "Warp Example"
-[image5]: ./examples/color_fit_lines.jpg "Fit Visual"
+
+[image4]: ./images/initital_debug.png "Initial"
+[image5]: ./images/Undistorted_debug.png "Undistorted"
+[image6]: ./images/SobelX_debug.png "Sobel X applied"
+[image7]: ./images/S_channel_selection_debug.png "S channel selected"
+[image8]: ./images/SobelX_for_S_channel_debug.png "S channel + Sobel X"
+[image9]: ./images/Combined_debug.png "Combined"
+
 [image6]: ./examples/example_output.jpg "Output"
 [video1]: ./project_video.mp4 "Video"
 
@@ -64,12 +70,26 @@ Following techniques were considered:
 
 The code for the methods above can be found in the cell 9 of the [a IPython notebook](project.ipynb)
 
-I've as a result I've come up with following pre-processing pipilene:
+I've as a result I've come up with following pre-processing pipiline:
+
+* Load initial image
+![alt text][image4]
+
+* Undistort
+![alt text][image5]
 
 * Use SobelX operator on the source image 
+![alt text][image6]
+
 * Use S Channel threashhold for HSL color space
+![alt text][image7]
+
 * Use SobelX operator on the S Channel image
+![alt text][image8]
+
 * Combine SobelX for RGB and SobelX for S Channel image.
+![alt text][image9]
+
 
 ![alt text][image3]
 
