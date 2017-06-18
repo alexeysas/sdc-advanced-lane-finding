@@ -147,7 +147,7 @@ After that we can use found X coordinates as a starting points to search both li
 
 Here is sliding window processing result:
 
-![alt text][image13]
+![alt text][image14]
 
 The code to find line based on the bird-eye view image  can be found in the cells 50 of the [a IPython notebook](project.ipynb)
 
