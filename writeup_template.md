@@ -67,8 +67,9 @@ The code for the methods above can be found in the cell 9 of the [a IPython note
 I've as a result I've come up with following pre-processing pipilene:
 
 * Use SobelX operator on the source image 
-
-
+* Use S Channel threashhold for HSL color space
+* Use SobelX operator on the S Channel image
+* Combine SobelX for RGB and SobelX for S Channel image.
 
 ![alt text][image3]
 
