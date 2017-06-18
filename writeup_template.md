@@ -32,7 +32,7 @@ Following steps were applied:
 [image11]: ./images/road_perspective.png "Perspective"
 [image12]: ./images/Bird_View_debug.png "Bird view"
 [image13]: ./images/hist.png "Histogram"
-[image14]: ./images/sliding.png "Histogram"
+[image14]: ./images/sliding.png "Lines"
 
 
 
@@ -145,11 +145,11 @@ First we need to find starting points - for this purpose we buit historgram to f
 
 After that we can use found X coordinates as a starting points to search both lines. In the loop we are sliding windows centered in the found x coourdinates up. When we found enough line pixels inside the window we recentered sliding window based on the mean value of these pixels.
 
+Here is sliding window processing result:
 
+![alt text][image13]
 
 The code to find line based on the bird-eye view image  can be found in the cells 50 of the [a IPython notebook](project.ipynb)
-
-![alt text][image5]
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
