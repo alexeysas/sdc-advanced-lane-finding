@@ -1,7 +1,9 @@
 ## Advanced Lane Finding Project
 
-The goals of the project is to detect current car lane, detecting both left and right line.
+### Goal
+The goal of the project is to detect current car lane, detecting both left and right line.
 
+### Steps
 Following steps were applied:
 
 * Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
@@ -23,19 +25,25 @@ Following steps were applied:
 [image6]: ./examples/example_output.jpg "Output"
 [video1]: ./project_video.mp4 "Video"
 
-## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
-
 ### Camera Calibration
 
 First we need to transform image to remove [a camera distortion effect](https://en.wikipedia.org/wiki/Distortion_(optics)) which might affect finding correct lines curvature.
 
-I start by preparing "object points", which will be the (x, y, z) coordinates of the chessboard corners in the world. Here I am assuming the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image.  Object points were set as 0:8, 0:6 grid matrix. Thry are the same for every successfully detected chessboard image from the callibration folder. Additionaly, we set `image points` to the (x, y) coordinates of the successfully detected corners of the calibration chessboard image.
+I started by preparing "object points", which will be the (x, y, z) coordinates of the chessboard corners in the world. Here I am assuming the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image.  Object points were set as 0:8, 0:6 grid matrix. Thry are the same for every successfully detected chessboard image from the callibration folder. Additionaly, we set `image points` to the (x, y) coordinates of the successfully detected corners of the calibration chessboard image.
 
 Then we are combined all "object points" and "image points" of each individual chessboard image into set of arrays and use open cv (`cv2.calibrateCamera()` function) to compute the camera calibration and distortion coefficients. After calibration is done I tested distortion correction on the test chessboard image using the `cv2.undistort()` function and obtained good result: 
 
 ![alt text][image1]
 
-After that I applied distortion to the test image of the road and got pretty resonable results as well:
+The code for this step is contained in cells 2-6 of the [a IPython notebook](project.ipynb)
+
+### Pipeline (single images)
+
+#### 1. Correct image distortion
+
+First we need to remove distortion from the test image using matrix found during camera calibration.
+
+After I applied distortion corection to the test image of the road I get pretty resonable results:
 
 Normal image:
 
@@ -45,16 +53,16 @@ Undistorted image:
 
 ![alt text][image3]
 
-The code for this step is contained in cells 2-6 of the [a IPython notebook](project.ipynb)
+The code for this step is contained in cell 6 of the [a IPython notebook](project.ipynb)
 
-### Pipeline (single images)
+#### 2. For the second step we need to pre-process image to extract line pixels.
+Following techniques were considered:
+* Using [a SobelX and SobelY operators](https://en.wikipedia.org/wiki/Sobel_operator)
+* Using gradient magnitude
+* Using direction gradient
+* Using HSL color space convertion and gradients based on S channel.
 
-#### 1. Provide an example of a distortion-corrected image.
-
-To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this one:
-![alt text][image2]
-
-#### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
+The code for the methods above can be found in the cell 9 of the [a IPython notebook](project.ipynb)
 
 I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at lines # through # in `another_file.py`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
 
