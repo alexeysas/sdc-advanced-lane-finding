@@ -183,7 +183,10 @@ Additionaly, algorithm does not work so well when there are complex shadows on t
 
 Also algorithm will likely fail then there are "fake" lines on the road and road boarders similar to the lane lines.  Second video illustrates these issues well.
 
+For the future improvement we can thing about following ways:
 
+* Use information about standard lane width to filter such artifacts as "fake" lines.
+* Implement more robast algorithm to reject outliers. For exanple we can use GPS and map information to find real road curvature and compare with detected. 
+* Even if I used information from the previous frame as a starting point to detect lines - this still can be improved by using combined information from the n previous frames -to achive more stable result.
+* Additionaly we can think about a ways of adjusting hyperparameters according to the lightning confitions and road state. As some parameters works pretty good on the shadowed clean road but not so good for road of different color.
 
-
-However, algorithm is still likly fail on the images without c
