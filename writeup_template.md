@@ -1,12 +1,8 @@
-## Writeup Template
+## Advanced Lane Finding Project
 
-### You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
+The goals of the project is to detect current car lane, detecting both left and right line.
 
----
-
-**Advanced Lane Finding Project**
-
-The goals / steps of this project are the following:
+Following steps were applied:
 
 * Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
 * Apply a distortion correction to raw images.
