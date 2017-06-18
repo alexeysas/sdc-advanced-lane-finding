@@ -145,23 +145,20 @@ First we need to find starting points - for this purpose we buit historgram to f
 
 After that we can use found X coordinates as a starting points to search both lines. In the loop we are sliding windows centered in the found x coourdinates up. When we found enough line pixels inside the window we recentered sliding window based on the mean value of these pixels.
 
-Here is sliding window processing result:
+After pixels are determined for the left and right lines - we can fit second order polynimial the pixels using numpy.polyfit function.
+
+Here is sliding window and polinomyal fit processing results:
 
 ![alt text][image14]
 
 The code to find line based on the bird-eye view image  can be found in the cells 50 of the [a IPython notebook](project.ipynb)
 
-#### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
+#### 5. Find Lines curvature and distance to the car center
 
 I did this in lines # through # in my code in `my_other_file.py`
 
-#### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
+#### 6. Plot detected lane and car information
 
-I implemented this step in lines # through # in my code in `yet_another_file.py` in the function `map_lane()`.  Here is an example of my result on a test image:
-
-![alt text][image6]
-
----
 
 ### Pipeline (video)
 
@@ -173,6 +170,20 @@ Here's a [link to my video result](./project_video.mp4)
 
 ### Discussion
 
-#### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
+#### 1. Issues and future updates
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+One of the challenging tasks to make lane finding algorithm work correctly is a large number of hyper parameters to tune including:
+
+* Sliding windows size and count
+* Gradients and color selecion thresholds for the processing pipelines
+* Pipline configuration
+* Vertical distance to amalize for the perspective transform
+
+Additionaly, algorithm does not work so well when there are complex shadows on the road, road is not clear and lines are old and not bright.
+
+Also algorithm will likely fail then there are "fake" lines on the road and road boarders similar to the lane lines.  Second video illustrates these issues well.
+
+
+
+
+However, algorithm is still likly fail on the images without c
