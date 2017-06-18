@@ -31,6 +31,8 @@ Following steps were applied:
 [image10]: ./images/road_region.png "Region"
 [image11]: ./images/road_perspective.png "Perspective"
 [image12]: ./images/Bird_View_debug.png "Bird view"
+[image13]: ./images/hist.png "Histogram"
+[image14]: ./images/sliding.png "Histogram"
 
 
 
@@ -131,13 +133,21 @@ This resulted image is following:
 
 The perspective transform worked as expected as road lines are vertical and parallel.
 
-#### 4. Detect line pixels
+#### 4. Detect lines pixels
 
-After the perspective transform is applied to the image from the pipelibe above we are ready to find lines and curvature:
+After the perspective transform is applied to the image from the pipeline above we are ready to find lines and lines curvature:
 
 ![alt text][image12]
 
-Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda like this:
+First we need to find starting points - for this purpose we buit historgram to find left and right peaks with maximum number of detected points:
+
+![alt text][image13]
+
+After that we can use found X coordinates as a starting points to search both lines. In the loop we are sliding windows centered in the found x coourdinates up. When we found enough line pixels inside the window we recentered sliding window based on the mean value of these pixels.
+
+
+
+The code to find line based on the bird-eye view image  can be found in the cells 50 of the [a IPython notebook](project.ipynb)
 
 ![alt text][image5]
 
