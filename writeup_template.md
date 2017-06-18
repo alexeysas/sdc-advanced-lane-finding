@@ -153,10 +153,31 @@ Here is sliding window and polynomial fit processing results:
 
 The code to find line based on the bird-eye view image can be found in the cells 50 of the [a IPython notebook](project.ipynb)
 
-#### 5. Find Lines curvature and distance to the car center
+#### 5. Find Lines curvature and distance to the car center, 
 
-I did this in lines # through # in my code in `my_other_file.py`
+To find line curvature we can use formula described  [a there](http://www.intmath.com/applications-differentiation/8-radius-curvature.php) 
 
+As we have second order polynomial curve we need to find derivatives and apply to the formula specified above.
+
+Three python functions were created for this and be found in the cell 14 of the [a IPython notebook](project.ipynb)
+
+Using these functions and car position (center borttom of the image) we can find radius of curvature in pixels.  To find realwold radius of curvature I've hardcoded convertions cooficients according to my perspective projection and USA standards for the lane width
+
+ ym_per_pix = 30.0 / 720 
+ xm_per_pix = 3.4 / 700
+ 
+ After that I've calculated real world curvature in meters for both current fit and average fit for the 5 previous frames (for the video only)
+ 
+To calculate car postion I've used the fact that camera is mounted on the car center. Additionly, we need to find warped car center on the projection image. I've used Open CV perspectiveTransform function for that.
+ 
+ Code can be found in the cell 8 of the [a IPython notebook](project.ipynb)
+ 
+The final step is to measure distance by finding difference car center coordinate and bottom line's pixels, and convert distance to the real world measures using convertions cooficients above.
+
+Code for the calculating lines curvature and car distance to the lines can be found in the calculate_lines_parameters function
+in the cell 12 of the [a IPython notebook](project.ipynb)
+ 
+ 
 #### 6. Plot detected lane and car information
 
 
@@ -181,6 +202,8 @@ One of the challenging tasks to make lane finding algorithm work correctly is ma
 Additionally, algorithm does not work so well when there are complex shadows on the road, road is not clear and lines are old and not bright.
 
 Also, algorithm will likely fail then there are "fake" lines on the road and road boarders like the lane lines.  Second video illustrates these issues well.
+
+Also, algorithm is pretty slow. It can not be used for real time processing. So we need to work to improve perfomance by removing non-optimal code or probably consider different image resolution s as well.
 
 For the future improvement, we can thing about following ways:
 
