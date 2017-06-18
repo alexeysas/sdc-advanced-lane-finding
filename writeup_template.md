@@ -28,6 +28,10 @@ Following steps were applied:
 [image8]: ./images/SobelX_for_S_channel_debug.png "S channel + Sobel X"
 [image9]: ./images/Combined_debug.png "Combined"
 
+[image10]: ./images/road_region.png "Region"
+[image11]: ./images/road_perspective.png "Perspective"
+
+
 [image6]: ./examples/example_output.jpg "Output"
 [video1]: ./project_video.mp4 "Video"
 
@@ -90,38 +94,40 @@ I've as a result I've come up with following pre-processing pipiline:
 * Combine SobelX for RGB and SobelX for S Channel image.
 ![alt text][image9]
 
+The code for the pipline can be found in the cell 65 of the [a IPython notebook](project.ipynb)
 
-![alt text][image3]
+#### 3. Perspective transform
 
-#### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
+The next step is to transform region of interest of the pre-processed image to the bird-view of the road lane to correctly detect line and measure curvature. 
 
-The code for my perspective transform includes a function called `warper()`, which appears in lines 1 through 8 in the file `example.py` (output_images/examples/example.py) (or, for example, in the 3rd code cell of the IPython notebook).  The `warper()` function takes as inputs an image (`img`), as well as source (`src`) and destination (`dst`) points.  I chose the hardcode the source and destination points in the following manner:
+First we need to identify projection transform matrix.  To achive this we need four points on the road which we know cplaces in a way so they determine rectangle.
 
-```python
-src = np.float32(
-    [[(img_size[0] / 2) - 55, img_size[1] / 2 + 100],
-    [((img_size[0] / 6) - 10), img_size[1]],
-    [(img_size[0] * 5 / 6) + 60, img_size[1]],
-    [(img_size[0] / 2 + 55), img_size[1] / 2 + 100]])
-dst = np.float32(
-    [[(img_size[0] / 4), 0],
-    [(img_size[0] / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), 0]])
-```
+I choose image with the straight falt line and determine rectangilar region below: 
 
-This resulted in the following source and destination points:
+![alt text][image10]
+
+After that I determined mapped destination points on the bird-view image:
+
+src = np.float32([(275,670), (1030,670), 
+                   (766,500), (521,500)])
+
+dst = np.float32([[250, 680], [1030, 680],
+                    [1030, 300], [250, 300]])
 
 | Source        | Destination   | 
 |:-------------:|:-------------:| 
-| 585, 460      | 320, 0        | 
-| 203, 720      | 320, 720      |
-| 1127, 720     | 960, 720      |
-| 695, 460      | 960, 0        |
+| 275,670       | 250, 680      | 
+| 1030,670      | 1030, 680     |
+| 766,500       | 1030, 300     |
+| 521,500       | 250, 300      |
 
-I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
+I've used open CV getPerspectiveTransform function to calculate transform matrix and warpPerspective to perform perspective transform of the image.
 
-![alt text][image4]
+This resulted image is following:
+
+![alt text][image10]
+
+The perspective transform worked as expected as road lines are vertical and parallel.
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
