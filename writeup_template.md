@@ -43,7 +43,7 @@ Following steps were applied:
 
 First we need to transform image to remove [a camera distortion effect](https://en.wikipedia.org/wiki/Distortion_(optics)) which might affect finding correct lines curvature.
 
-I started by preparing "object points", which will be the (x, y, z) coordinates of the chessboard corners in the world. Here I am assuming the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image.  Object points were set as 0:8, 0:6 grid matrix. Thry are the same for every successfully detected chessboard image from the callibration folder. Additionaly, we set `image points` to the (x, y) coordinates of the successfully detected corners of the calibration chessboard image.
+I started by preparing "object points", which will be the (x, y, z) coordinates of the chessboard corners in the world. Here I am assuming the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image.  Object points were set as 0:8, 0:6 grid matrix. They are the same for every successfully detected chessboard image from the calibration folder. Additionally, we set `image points` to the (x, y) coordinates of the successfully detected corners of the calibration chessboard image.
 
 Then we are combined all "object points" and "image points" of each individual chessboard image into set of arrays and use open cv (`cv2.calibrateCamera()` function) to compute the camera calibration and distortion coefficients. After calibration is done I tested distortion correction on the test chessboard image using the `cv2.undistort()` function and obtained good result: 
 
@@ -55,9 +55,9 @@ The code for this step is contained in cells 2-6 of the [a IPython notebook](pro
 
 #### 1. Correct image distortion
 
-First we need to remove distortion from the test image using matrix found during camera calibration.
+First, we need to remove distortion from the test image using matrix found during camera calibration.
 
-After I applied distortion corection to the test image of the road I get pretty resonable results:
+After I applied distortion correction to the test image of the road I get pretty reasonable results:
 
 Normal image:
 
@@ -74,11 +74,11 @@ Following techniques were considered:
 * Using [a SobelX and SobelY operators](https://en.wikipedia.org/wiki/Sobel_operator)
 * Using gradient magnitude
 * Using direction gradient
-* Using HSL color space convertion and gradients based on S channel.
+* Using HSL color space conversion and gradients based on S channel.
 
 The code for the methods above can be found in the cell 9 of the [a IPython notebook](project.ipynb)
 
-I've as a result I've come up with following pre-processing pipiline:
+As a result I've come up with following pre-processing pipeline:
 
 * Load initial image
 ![alt text][image4]
@@ -89,7 +89,7 @@ I've as a result I've come up with following pre-processing pipiline:
 * Use SobelX operator on the source image 
 ![alt text][image6]
 
-* Use S Channel threashhold for HSL color space
+* Use S Channel threshold for HSL color space
 ![alt text][image7]
 
 * Use SobelX operator on the S Channel image
@@ -98,15 +98,15 @@ I've as a result I've come up with following pre-processing pipiline:
 * Combine SobelX for RGB and SobelX for S Channel image.
 ![alt text][image9]
 
-The code for the pipline can be found in the cell 65 of the [a IPython notebook](project.ipynb)
+The code for the pipeline can be found in the cell 65 of the [a IPython notebook](project.ipynb)
 
 #### 3. Perspective transform
 
 The next step is to transform region of interest of the pre-processed image to the bird-view of the road lane to correctly detect line and measure curvature. 
 
-First we need to identify projection transform matrix.  To achive this we need four points on the road which we know cplaces in a way so they determine rectangle.
+First, we need to identify projection transform matrix.  To achieve this, we need four points on the road which we know placed in a way so they determine rectangle.
 
-I choose image with the straight falt line and determine rectangilar region below: 
+I selected image with the straight flat line and determine rectangular region below: 
 
 ![alt text][image10]
 
@@ -139,19 +139,19 @@ After the perspective transform is applied to the image from the pipeline above 
 
 ![alt text][image12]
 
-First we need to find starting points - for this purpose we buit historgram to find left and right peaks with maximum number of detected points:
+First, we need to find starting points - for this purpose we built histogram to find left and right peaks with maximum number of detected points:
 
 ![alt text][image13]
 
-After that we can use found X coordinates as a starting points to search both lines. In the loop we are sliding windows centered in the found x coourdinates up. When we found enough line pixels inside the window we recentered sliding window based on the mean value of these pixels.
+After that we can use X coordinates we found as a starting point to search both lines. In the loop, we are sliding windows centered in the found x coordinates up. When we found enough line pixels inside the window we re-centered sliding window based on the mean value of these pixels.
 
-After pixels are determined for the left and right lines - we can fit second order polynimial the pixels using numpy.polyfit function.
+After pixels are determined for the left and right lines - we can fit second order polynomial the pixels using numpy.polyfit function.
 
-Here is sliding window and polinomyal fit processing results:
+Here is sliding window and polynomial fit processing results:
 
 ![alt text][image14]
 
-The code to find line based on the bird-eye view image  can be found in the cells 50 of the [a IPython notebook](project.ipynb)
+The code to find line based on the bird-eye view image can be found in the cells 50 of the [a IPython notebook](project.ipynb)
 
 #### 5. Find Lines curvature and distance to the car center
 
@@ -166,27 +166,26 @@ I did this in lines # through # in my code in `my_other_file.py`
 
 Here's a [link to my video result](./project_video.mp4)
 
----
 
 ### Discussion
 
 #### 1. Issues and future updates
 
-One of the challenging tasks to make lane finding algorithm work correctly is a large number of hyper parameters to tune including:
+One of the challenging tasks to make lane finding algorithm work correctly is many hyper parameters to tune including:
 
 * Sliding windows size and count
-* Gradients and color selecion thresholds for the processing pipelines
-* Pipline configuration
-* Vertical distance to amalize for the perspective transform
+* Gradients and color selection thresholds for the processing pipelines
+* Pipeline configuration
+* Vertical distance to analyze for the perspective transform
 
-Additionaly, algorithm does not work so well when there are complex shadows on the road, road is not clear and lines are old and not bright.
+Additionally, algorithm does not work so well when there are complex shadows on the road, road is not clear and lines are old and not bright.
 
-Also algorithm will likely fail then there are "fake" lines on the road and road boarders similar to the lane lines.  Second video illustrates these issues well.
+Also, algorithm will likely fail then there are "fake" lines on the road and road boarders like the lane lines.  Second video illustrates these issues well.
 
-For the future improvement we can thing about following ways:
+For the future improvement, we can thing about following ways:
 
 * Use information about standard lane width to filter such artifacts as "fake" lines.
-* Implement more robast algorithm to reject outliers. For exanple we can use GPS and map information to find real road curvature and compare with detected. 
-* Even if I used information from the previous frame as a starting point to detect lines - this still can be improved by using combined information from the n previous frames -to achive more stable result.
-* Additionaly we can think about a ways of adjusting hyperparameters according to the lightning confitions and road state. As some parameters works pretty good on the shadowed clean road but not so good for road of different color.
+* Implement more robust algorithm to reject outliers. For example, we can use GPS and map information to find real road curvature and compare with detected. 
+* Even if I used information from the previous frame as a starting point to detect lines - this still can be improved by using combined information from the n previous frames - to achieve more stable result.
+* Additionally, we can think about a ways of adjusting hyperparameters according to the lightning conditions and road state. As some parameters works pretty good on the shadowed clean road but not so good for road of different color.
 
